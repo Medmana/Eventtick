@@ -9,6 +9,7 @@ export const authentication = (app) => {
 
   // Enregistrement de la stratégie locale pour l'authentification avec email et mot de passe
   authentication.register('local', new LocalStrategy({
+    usernameField: 'email',
     async authenticate(credentials) {
       const { email, password } = credentials;
 
@@ -39,6 +40,7 @@ export const authentication = (app) => {
       return userRecord;
     }
   }));
+  
 
   // Enregistrement du service d'authentification dans Feathers
   app.use('authentication', authentication);
