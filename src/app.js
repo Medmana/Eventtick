@@ -8,7 +8,10 @@ import { configurationValidator } from './configuration.js'
 import { logError } from './hooks/log-error.js'
 import { authentication } from './authentication.js'
 import { services } from './services/index.js'
-import { channels } from './channels.js'
+import { channels } from './channels.js';
+import Koa from 'koa';
+import koaStatic from 'koa-static';  // Assure-toi que cette ligne est présente
+import path from 'path';
 
 const app = koa(feathers())
 
