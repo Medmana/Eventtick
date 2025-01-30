@@ -1,4 +1,5 @@
-import { AuthenticationService, LocalStrategy } from '@feathersjs/authentication-local';
+import pkg from '@feathersjs/authentication-local';
+const { AuthenticationService, LocalStrategy } = pkg;
 import { hooks } from '@feathersjs/authentication';
 
 export const authentication = app => {
