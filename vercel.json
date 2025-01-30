@@ -11,6 +11,11 @@
         "src": "/(.*)",
         "dest": "src/index.js"
       }
-    ]
+      
+    ],
+    "env": {
+  "SUPPRESS_NO_CONFIG_WARNING": "true"
+}
+
   }
   
