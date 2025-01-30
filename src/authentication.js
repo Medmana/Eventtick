@@ -1,49 +1,23 @@
-import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication';
-import { LocalStrategy } from '@feathersjs/authentication-local';
+import { AuthenticationService, LocalStrategy } from '@feathersjs/authentication-local';
+import { hooks } from '@feathersjs/authentication';
 
-export const authentication = (app) => {
-  const authentication = new AuthenticationService(app);
+export const authentication = app => {
+  app.configure(
+    new AuthenticationService(app)
+      .register('local', new LocalStrategy())
+  );
 
-  // Enregistrement de la stratégie JWT pour l'authentification par token
-  authentication.register('jwt', new JWTStrategy());
-
-  // Enregistrement de la stratégie locale pour l'authentification avec email et mot de passe
-  authentication.register('local', new LocalStrategy({
-    usernameField: 'email',
-    async authenticate(credentials) {
-      const { email, password } = credentials;
-
-      // Trouver l'utilisateur par email
-      const users = await app.service('users').find({
-        query: { email },
-      });
-
-      // Si l'utilisateur n'existe pas
-      if (users.length === 0) {
-        throw new Error('Utilisateur non trouvé');
-      }
-
-      const userRecord = users[0];
-
-      // Vérification de l'état de vérification du compte
-      if (!userRecord.verified) {
-        throw new Error('Votre compte n\'est pas encore vérifié. Veuillez vérifier votre email.');
-      }
-
-      // Comparer le mot de passe
-      const isPasswordValid = await app.service('authentication').verifyPassword(password, userRecord.password);
-      if (!isPasswordValid) {
-        throw new Error('Mot de passe incorrect');
-      }
-
-      // Si tout est valide, retourner l'utilisateur
-      return userRecord;
+  app.service('authentication').hooks({
+    before: {
+      create: [
+        hooks.authenticate('local')
+      ]
     }
-  }));
-  
+  });
 
-  // Enregistrement du service d'authentification dans Feathers
-  app.use('authentication', authentication);
-
-  // Ici, vous n'avez plus besoin d'utiliser app.post() car Feathers gère déjà les requêtes d'authentification via le service 'authentication'.
+  // Spécifie le champ pour le nom d'utilisateur
+  app.get('authentication').local = {
+    usernameField: 'email',  // Utilise 'email' comme champ pour le nom d'utilisateur
+    passwordField: 'password' // Champ pour le mot de passe
+  };
 };
