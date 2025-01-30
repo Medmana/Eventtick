@@ -12,7 +12,6 @@ import { channels } from './channels.js';
 import Koa from 'koa';
 import koaStatic from 'koa-static';  // Assure-toi que cette ligne est présente
 import path from 'path';
-import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
