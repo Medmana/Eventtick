@@ -2,7 +2,7 @@
     "routes": [
         {
           "src": "/(.*)",
-          "dest": "src/index.js"
+          "dest": "api/index.js"
         }
       ],
       "env": {
@@ -10,7 +10,7 @@
         "MONGODB_URI": "mongodb+srv://<username>:<password>@cluster0.j2sgs.mongodb.net/<dbname>"
       },
       "functions": {
-        "src/index.js": {
+        "api/index.js": {
           "memory": 1024,
           "maxDuration": 10
         }
