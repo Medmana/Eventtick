@@ -31,7 +31,7 @@
   "main": "lib/index",
   "type": "module",
   "scripts": {
-    "start": "set SUPPRESS_NO_CONFIG_WARNING=true && node src",
+    "start": "node src/index.js",
     "dev": "nodemon src/",
     "prettier": "npx prettier \"**/*.js\" --write",
     "mocha": "cross-env NODE_ENV=test mocha test/ --recursive --exit",
